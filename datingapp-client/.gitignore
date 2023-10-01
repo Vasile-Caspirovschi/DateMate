@@ -1,7 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 /ssl
-
+*.db
 # Compiled output
 /dist
 /tmp

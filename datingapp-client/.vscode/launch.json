@@ -3,6 +3,15 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Launch Chrome",
+      "request": "launch",
+      "type": "chrome",
+      "url": "https://localhost:4200/",
+      "webRoot": "${workspaceFolder}"
+    },
+    
+    
+    {
       "name": "ng serve",
       "type": "chrome",
       "request": "launch",

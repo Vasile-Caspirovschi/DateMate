@@ -9,7 +9,7 @@ import { ReplaySubject } from 'rxjs/internal/ReplaySubject';
 })
 export class AccountService {
   baseUrl = 'https://localhost:7226/api/';
-  private currentUserSource = new ReplaySubject<User>();
+  private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
   constructor(private http: HttpClient) { }
 
@@ -44,5 +44,5 @@ export class AccountService {
   logout(){
     localStorage.removeItem('user');
     this.currentUserSource.next(null!); 
-  }
+  } 
 }
