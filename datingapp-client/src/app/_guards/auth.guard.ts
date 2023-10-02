@@ -13,7 +13,6 @@ export const authGuard: CanActivateFn = (): Observable<boolean> => {
     map(user => {
       let isAnonymous = !!user;
       isAnonymous = !isAnonymous;
-      console.log(isAnonymous);
       if (isAnonymous) {
         toastr.error('You shall no pass!');
         return false;
