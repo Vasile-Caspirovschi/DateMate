@@ -25,13 +25,14 @@ catch (Exception ex)
 	var logger = app.Services.GetRequiredService<ILogger<Program>>();
 	logger.LogError(ex, "An error occurred during migration and seeding data");
 }
-
 app.UseMiddleware<ExceptionMiddleware>();
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseRouting();
-app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
+
+app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200/"));
+
 
 app.UseAuthentication();
 app.UseAuthorization();
