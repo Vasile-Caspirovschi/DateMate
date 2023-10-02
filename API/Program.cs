@@ -1,11 +1,7 @@
 using API.Data;
 using API.Extensions;
-using API.Interfaces;
-using API.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using API.Middleware;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,16 +13,25 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseDeveloperExceptionPage();
+	var scope = app.Services.CreateScope();
+	var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();	
+	await dataContext.Database.MigrateAsync();
+	await UserSeed.SeedUsers(dataContext);
+}
+catch (Exception ex)
+{
+	var logger = app.Services.GetRequiredService<ILogger<Program>>();
+	logger.LogError(ex, "An error occurred during migration and seeding data");
 }
 
-app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionMiddleware>();
+
+//app.UseHttpsRedirection();
 
 app.UseRouting();
-app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
 app.UseAuthentication();
 app.UseAuthorization();

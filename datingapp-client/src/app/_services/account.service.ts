@@ -8,7 +8,7 @@ import { ReplaySubject } from 'rxjs/internal/ReplaySubject';
   providedIn: 'root'
 })
 export class AccountService {
-  baseUrl = 'https://localhost:7226/api/';
+  baseUrl = 'http://localhost:5129/api/';
   private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
   constructor(private http: HttpClient) { }
