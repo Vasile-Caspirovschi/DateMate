@@ -15,7 +15,11 @@ export class AccountService {
   constructor(private http: HttpClient) { }
 
   login(model: any) {
-    return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
+    return this.http.post<User>(this.baseUrl + 'account/login', model, {
+      headers : {
+        'Access-Control-Allow-Origin' : '*'
+      }
+    }).pipe(
       map((response: User) => {
         const user = response;
         if (user) {

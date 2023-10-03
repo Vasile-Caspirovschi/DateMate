@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors();
 builder.Services.AddAplicationServices(builder.Configuration);
 builder.Services.AddControllers();
-builder.Services.AddCors();
 builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
@@ -27,12 +27,10 @@ catch (Exception ex)
 }
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.UseHttpsRedirection();
+app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+//app.UseHttpsRedirection();
 
 app.UseRouting();
-
-app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200/"));
-
 
 app.UseAuthentication();
 app.UseAuthorization();
