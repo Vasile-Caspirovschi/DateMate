@@ -13,8 +13,8 @@
 "Country": "Peru",
 "Photos": [
   {
-    "url": "https://randomuser.me/api/portraits/women/15.jpg",
-    "isMain": true
+    "Url": "https://randomuser.me/api/portraits/women/15.jpg",
+    "IsMain": true
   }
 ]
 },
@@ -32,8 +32,8 @@
 "Country": "Yugoslavia",
 "Photos": [
   {
-    "url": "https://randomuser.me/api/portraits/women/35.jpg",
-    "isMain": true
+    "Url": "https://randomuser.me/api/portraits/women/35.jpg",
+    "IsMain": true
   }
 ]
 },
@@ -51,8 +51,8 @@
 "Country": "Greenland",
 "Photos": [
   {
-    "url": "https://randomuser.me/api/portraits/women/66.jpg",
-    "isMain": true
+    "Url": "https://randomuser.me/api/portraits/women/66.jpg",
+    "IsMain": true
   }
 ]
 },
@@ -70,8 +70,8 @@
 "Country": "Monaco",
 "Photos": [
   {
-    "url": "https://randomuser.me/api/portraits/women/89.jpg",
-    "isMain": true
+    "Url": "https://randomuser.me/api/portraits/women/89.jpg",
+    "IsMain": true
   }
 ]
 },
@@ -89,8 +89,8 @@
 "Country": "Finland",
 "Photos": [
   {
-    "url": "https://randomuser.me/api/portraits/women/99.jpg",
-    "isMain": true
+    "Url": "https://randomuser.me/api/portraits/women/99.jpg",
+    "IsMain": true
   }
 ]
 },
@@ -108,8 +108,8 @@
   "Country": "Latvia",
   "Photos": [
     {
-      "url": "https://randomuser.me/api/portraits/men/19.jpg",
-      "isMain": true
+      "Url": "https://randomuser.me/api/portraits/men/19.jpg",
+      "IsMain": true
     }
   ]
 },
@@ -127,8 +127,8 @@
   "Country": "Heard and McDonald Islands",
   "Photos": [
     {
-      "url": "https://randomuser.me/api/portraits/men/18.jpg",
-      "isMain": true
+      "Url": "https://randomuser.me/api/portraits/men/18.jpg",
+      "IsMain": true
     }
   ]
 },
@@ -146,8 +146,8 @@
   "Country": "Nigeria",
   "Photos": [
     {
-      "url": "https://randomuser.me/api/portraits/men/89.jpg",
-      "isMain": true
+      "Url": "https://randomuser.me/api/portraits/men/89.jpg",
+      "IsMain": true
     }
   ]
 },
@@ -165,8 +165,8 @@
   "Country": "Turkey",
   "Photos": [
     {
-      "url": "https://randomuser.me/api/portraits/men/32.jpg",
-      "isMain": true
+      "Url": "https://randomuser.me/api/portraits/men/32.jpg",
+      "IsMain": true
     }
   ]
 },
@@ -184,8 +184,8 @@
   "Country": "Norfolk Island",
   "Photos": [
     {
-      "url": "https://randomuser.me/api/portraits/men/35.jpg",
-      "isMain": true
+      "Url": "https://randomuser.me/api/portraits/men/35.jpg",
+      "IsMain": true
     }
   ]
 }

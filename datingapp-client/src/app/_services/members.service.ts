@@ -15,7 +15,7 @@ if (userItem) {
 
 const httpOptions = {
   headers: new HttpHeaders({
-    Autorization: 'Bearer ' + token,
+    Authorization: 'Bearer ' + token,
   })
 }
 
