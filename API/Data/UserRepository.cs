@@ -20,13 +20,17 @@ namespace API.Data
 
         public async Task<MemberDto> GetMemberAsync(string username)
         {
-            return await _dataContext.Users.Where(user => user.Username == username).
-                ProjectTo<MemberDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+            return await _dataContext.Users
+              .Where(x => x.Username == username)
+              .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+              .SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<MemberDto>> GetMembersAsync()
         {
-            return await _dataContext.Users.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).ToListAsync();
+            return await _dataContext.Users
+            .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
@@ -36,7 +40,9 @@ namespace API.Data
 
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
-            return await _dataContext.Users.SingleOrDefaultAsync(user => user.Username == username);
+            return await _dataContext.Users
+            .Include(p => p.Photos)
+            .SingleOrDefaultAsync(x => x.Username == username);
         }
 
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
