@@ -10,7 +10,7 @@ using System.Text;
 
 namespace API.Controllers
 {
-    public class AccountController: ControllerAPIBase
+    public class AccountController : ControllerAPIBase
     {
         private readonly DataContext _dataContext;
         private readonly ITokenService _tokenService;
@@ -24,10 +24,10 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
         {
-            var user = await _dataContext.Users
+            var user = await _dataContext.Users.Include(p => p.Photos)
                 .SingleOrDefaultAsync(user => user.Username == loginDTO.Username!.ToLower());
 
-            if(user is null) return Unauthorized("Invalid username.");
+            if (user is null) return Unauthorized("Invalid username.");
 
             using var hmac = new HMACSHA512(user.PasswordSalt!);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password!));
@@ -38,7 +38,8 @@ namespace API.Controllers
             return new UserDTO
             {
                 Username = loginDTO.Username,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.IsMain)!.Url
             };
         }
 
@@ -56,7 +57,7 @@ namespace API.Controllers
                 PasswordSalt = hmac.Key
             };
 
-            _dataContext.Add(user); 
+            _dataContext.Add(user);
             await _dataContext.SaveChangesAsync();
 
             return new UserDTO
