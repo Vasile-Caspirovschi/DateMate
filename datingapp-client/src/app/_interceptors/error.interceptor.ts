@@ -5,13 +5,12 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-
   constructor(private router: Router, private toastr: ToastrService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -21,36 +20,34 @@ export class ErrorInterceptor implements HttpInterceptor {
           switch (error.status) {
             case 400:
               if (error.error.errors) {
-                const modalStateErrors = [];
+                const modelStateErrors = [];
                 for (const key in error.error.errors) {
                   if (error.error.errors[key]) {
-                    modalStateErrors.push(error.error.errors[key]);
+                    modelStateErrors.push(error.error.errors[key])
                   }
                 }
-                throw modalStateErrors.flat();
+                throw modelStateErrors.flat();
               } else {
-                this.toastr.error(error.statusText, error.status);
+                this.toastr.error(error.error, error.status);
               }
               break;
             case 401:
-              this.toastr.error(error.statusText, error.status);
-              console.log(error.statusText, error.status);
+              this.toastr.error('Unauthorised', error.status);
               break;
             case 404:
               this.router.navigateByUrl('/not-found');
               break;
             case 500:
-              const navigateExtras: NavigationExtras = { state: { error: error.error } }
-              console.log(navigateExtras);
-              this.router.navigateByUrl('/server-error', navigateExtras);
+              const navigationExtras: NavigationExtras = { state: { error: error.error } };
+              this.router.navigateByUrl('/server-error', navigationExtras);
               break;
             default:
-              this.toastr.error('Something went wrong!');
+              this.toastr.error('Something unexpected went wrong');
               console.log(error);
               break;
           }
         }
-        return throwError(() => new Error(error));
+        throw error;
       })
     );
   }

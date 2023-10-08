@@ -1,0 +1,8 @@
+<div class="form-group mt-2">
+    <input type="{{type}}" [class.is-invalid]="ngControl.touched && ngControl.invalid" class="form-control"
+        [formControl]="$any(ngControl.control)" placeholder="{{label}}">
+    <div *ngIf="ngControl.control?.errors?.['required']" class="invalid-feedback">Please enter {{label}}</div>
+    <div *ngIf="ngControl.control?.errors?.['minlength']" class="invalid-feedback">Minimum length for {{label}} is
+        {{ngControl.control?.errors?.['minlength'].requiredLength}}!</div>
+    <div *ngIf="ngControl.control?.errors?.['isMatching']" class="invalid-feedback">The passwords do not match</div>
+</div> 
