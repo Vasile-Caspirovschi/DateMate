@@ -42,7 +42,7 @@ namespace API.Controllers
             {
                 Username = loginDTO.Username,
                 Token = _tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.IsMain)!.Url
+                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.IsMain)?.Url
             };
         }
 

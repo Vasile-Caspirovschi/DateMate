@@ -1,5 +1,6 @@
 ﻿using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -26,11 +27,10 @@ namespace API.Data
               .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            return await _dataContext.Users
-            .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+            var getUsersQuery = _dataContext.Users.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking();
+            return  await PagedList<MemberDto>.CreateAsync(getUsersQuery, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
@@ -47,7 +47,7 @@ namespace API.Data
 
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
         {
-            return await _dataContext.Users.ToListAsync();
+            return await _dataContext.Users.ToListAsync();  
         }
 
         public async Task<bool> SaveAllAsync()
