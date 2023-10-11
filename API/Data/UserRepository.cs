@@ -21,33 +21,43 @@ namespace API.Data
 
         public async Task<MemberDto> GetMemberAsync(string username)
         {
-            return await _dataContext.Users
+            var user = await _dataContext.Users
               .Where(x => x.Username == username)
               .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
               .SingleOrDefaultAsync();
+            return user!;
         }
 
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            var getUsersQuery = _dataContext.Users.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking();
-            return  await PagedList<MemberDto>.CreateAsync(getUsersQuery, userParams.PageNumber, userParams.PageSize);
+            var getUsersQuery = _dataContext.Users.AsQueryable();
+            getUsersQuery = getUsersQuery.Where(user => user.Username != userParams.CurrentUsername);
+            getUsersQuery = getUsersQuery.Where(user => user.Gender == userParams.Gender);
+
+            var minDob = DateTime.Today.AddYears(-userParams.MaxAge);
+            var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
+            getUsersQuery = getUsersQuery.Where(user => user.DateOfBirth >= minDob && user.DateOfBirth <= maxDob); 
+
+            return await PagedList<MemberDto>.CreateAsync(getUsersQuery.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
         {
-            return await _dataContext.Users.FindAsync(id);
+            var user = await _dataContext.Users.FindAsync(id);
+            return user!;
         }
 
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
-            return await _dataContext.Users
+            var user = await _dataContext.Users
             .Include(p => p.Photos)
             .SingleOrDefaultAsync(x => x.Username == username);
+            return user!;
         }
 
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
         {
-            return await _dataContext.Users.ToListAsync();  
+            return await _dataContext.Users.ToListAsync();
         }
 
         public async Task<bool> SaveAllAsync()

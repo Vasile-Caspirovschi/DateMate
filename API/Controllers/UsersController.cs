@@ -26,6 +26,11 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
         {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            userParams.CurrentUsername = user.Username;
+
+            if (string.IsNullOrEmpty(userParams.Gender))
+                userParams.Gender = user.Gender == "male" ? "female" : "male";
             var users = await _userRepository.GetMembersAsync(userParams);
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
             return users;
@@ -79,7 +84,7 @@ namespace API.Controllers
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
             var photo = user.Photos.FirstOrDefault(photo => photo.Id == photoId);
 
-            if (photo.IsMain) return BadRequest("This is already your main photo!");
+            if (photo!.IsMain) return BadRequest("This is already your main photo!");
             var currentPhoto = user.Photos.FirstOrDefault(photo => photo.IsMain);
             if (currentPhoto is not null) currentPhoto.IsMain = false;
             photo.IsMain = true;
