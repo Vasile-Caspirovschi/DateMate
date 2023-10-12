@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [Authorize]
-    public class UsersController : ControllerAPIBase
+    public class UsersController : BaseApiController
     {
         private readonly IUserRepository _userRepository;
         private readonly IPhotoService _photoService;

@@ -11,7 +11,7 @@ using System.Text;
 
 namespace API.Controllers
 {
-    public class AccountController : ControllerAPIBase
+    public class AccountController : BaseApiController
     {
         private readonly DataContext _dataContext;
         private readonly ITokenService _tokenService;
@@ -42,7 +42,9 @@ namespace API.Controllers
             {
                 Username = loginDTO.Username,
                 Token = _tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.IsMain)?.Url
+                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.IsMain)?.Url,
+                Gender = user.Gender,
+                KnownAs = user.KnownAs 
             };
         }
 
