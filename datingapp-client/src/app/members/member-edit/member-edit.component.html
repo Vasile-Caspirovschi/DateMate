@@ -4,7 +4,7 @@
     </div>
     <div class="col-9">
         <div class="alert alert-info" *ngIf="formEdit.dirty">
-            <strong>Information:</strong> You have made changes. Any unsaved changes will be lost! 
+            <strong>Information:</strong> You have made changes. Any unsaved changes will be lost!
         </div>
     </div>
     <div class="col-3">
@@ -24,15 +24,16 @@
                 </div>
                 <div>
                     <strong>Last active:</strong>
-                    <p class="card-text">{{member.lastActive}}</p>
+                    <p class="card-text">{{member.lastActive | timeago}}</p>
                 </div>
                 <div>
                     <strong>Member since:</strong>
-                    <p class="card-text">{{member.created}}</p>
+                    <p class="card-text">{{member.created | date:'longDate'}}</p>
                 </div>
             </div>
             <div class="card-footer">
-                <button [disabled]="!formEdit.dirty" class="btn btn-success col-12" form="editForm">Save changes</button>
+                <button [disabled]="!formEdit.dirty" class="btn btn-success col-12" form="editForm">Save
+                    changes</button>
             </div>
         </div>
     </div>
@@ -42,9 +43,11 @@
             <tab heading="About {{member.knownAs}}">
                 <form #formEdit="ngForm" id="editForm" (submit)="updateMember()">
                     <h4>Description</h4>
-                    <textarea class="form-control" name="introduction" [(ngModel)]="member.introduction" rows="6"></textarea>
+                    <textarea class="form-control" name="introduction" [(ngModel)]="member.introduction"
+                        rows="6"></textarea>
                     <h4 class="mt-2">Looking for</h4>
-                    <textarea class="form-control" name="lookingFor" [(ngModel)]="member.lookingFor" rows="6"></textarea>
+                    <textarea class="form-control" name="lookingFor" [(ngModel)]="member.lookingFor"
+                        rows="6"></textarea>
                     <h4 class="mt-2">Interests</h4>
                     <textarea class="form-control" name="interests" [(ngModel)]="member.interests" rows="6"></textarea>
                     <h4>Location details:</h4>
