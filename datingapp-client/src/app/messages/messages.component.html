@@ -15,7 +15,7 @@
 <div class="row" *ngIf="messages?.length === 0">
     <h3>No messages</h3>
 </div>
-<div class="row" *ngIf="messages?.length !== 0">
+<div class="row" *ngIf="messages?.length! > 0">
     <table class="table table-hover" style="cursor:pointer;">
         <thead>
             <tr>
@@ -26,7 +26,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let message of messages" [queryParams]="{tab: 3}"
+            <tr [hidden]="isLoading" *ngFor="let message of messages" [queryParams]="{tab: 3}"
                 routerLink='{{container === "Outbox" ? "/members/" + message.recipientUsername : message.senderUsername }}'>
                 <td>{{message.content}}</td>
                 <td>
@@ -50,7 +50,7 @@
         </tbody>
     </table>
 </div>
-<div *ngIf="pagination" class="d-flex justify-content-center">
+<div *ngIf="pagination && !isLoading && messages?.length! > 0" class="d-flex justify-content-center">
     <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" (pageChanged)="pageChanged($event)"
         [(ngModel)]="pagination.currentPage" [itemsPerPage]="pagination.itemsPerPage" previousText="&lsaquo;"
         nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
