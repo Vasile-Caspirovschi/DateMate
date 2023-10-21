@@ -1,6 +1,6 @@
-import { Injectable, booleanAttribute, inject } from '@angular/core';
-import { CanActivate, CanActivateFn } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn } from '@angular/router';
+import { Observable} from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
