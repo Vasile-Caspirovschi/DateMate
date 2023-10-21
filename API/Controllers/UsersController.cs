@@ -82,10 +82,10 @@ namespace API.Controllers
         public async Task<ActionResult> SetMainPhoto(int photoId)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-            var photo = user.Photos.FirstOrDefault(photo => photo.Id == photoId);
+            var photo = user.Photos?.FirstOrDefault(photo => photo.Id == photoId);
 
             if (photo!.IsMain) return BadRequest("This is already your main photo!");
-            var currentPhoto = user.Photos.FirstOrDefault(photo => photo.IsMain);
+            var currentPhoto = user.Photos?.FirstOrDefault(photo => photo.IsMain);
             if (currentPhoto is not null) currentPhoto.IsMain = false;
             photo.IsMain = true;
 
@@ -98,7 +98,7 @@ namespace API.Controllers
         public async Task<ActionResult> DeletePhoto(int photoId)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-            var photo = user.Photos.FirstOrDefault(photo => photo.Id == photoId);
+            var photo = user.Photos?.FirstOrDefault(photo => photo.Id == photoId);
             if (photo is null) return NotFound();
             if (photo.IsMain) return BadRequest("You cannot delete your main photo!");
             if (photo.PublicId is not null)
@@ -106,7 +106,7 @@ namespace API.Controllers
                 var result = await _photoService.DeletePhotoAsync(photo.PublicId);
                 if (result.Error is not null) return BadRequest(result.Error.Message);
             }
-            user.Photos.Remove(photo);
+            user.Photos?.Remove(photo);
 
             if (await _userRepository.SaveAllAsync()) return Ok();
             return BadRequest("Failed to delete the photo!");
