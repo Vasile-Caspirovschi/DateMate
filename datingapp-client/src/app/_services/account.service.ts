@@ -16,8 +16,8 @@ export class AccountService {
 
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', model, {
-      headers : {
-        'Access-Control-Allow-Origin' : '*'
+      headers: {
+        'Access-Control-Allow-Origin': '*'
       }
     }).pipe(
       map((response: User) => {
@@ -29,7 +29,7 @@ export class AccountService {
     );
   }
 
-  register(model:any) {
+  register(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
       map((response: User) => {
         const user = response;
@@ -40,13 +40,20 @@ export class AccountService {
     );
   }
 
-  setCurrentUser(user: User){
+  setCurrentUser(user: User) {
+    user.roles = [];
+    const roles = this.getDecodedToken(user.token).role;
+    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
     localStorage.setItem('user', JSON.stringify(user));
-    this.currentUserSource.next(user);  
+    this.currentUserSource.next(user);
   }
 
-  logout(){
+  getDecodedToken(token: string) {
+    return JSON.parse(atob(token.split('.')[1]));
+  }
+
+  logout() {
     localStorage.removeItem('user');
-    this.currentUserSource.next(null!); 
-  } 
+    this.currentUserSource.next(null!);
+  }
 }
