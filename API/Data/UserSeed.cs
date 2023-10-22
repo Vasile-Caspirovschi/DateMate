@@ -1,7 +1,5 @@
 ﻿using API.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
 
 namespace API.Data
@@ -16,12 +14,7 @@ namespace API.Data
             var users = JsonSerializer.Deserialize<List<AppUser>>(userData);
             foreach (var user in users!)
             {
-                using var hmac = new HMACSHA512();
-
-                user.Username = user.Username!.ToLower();
-                user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("password"));
-                user.PasswordSalt = hmac.Key;
-
+                user.UserName = user.UserName!.ToLower();
                 dataContext.Users.Add(user);
             }
             await dataContext.SaveChangesAsync();

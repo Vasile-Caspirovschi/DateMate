@@ -47,9 +47,9 @@ namespace API.Data
             var getMessagesQuery = _dataContext.Messages.OrderByDescending(m => m.MessageSent).AsQueryable();
             getMessagesQuery = messageParams.Container switch
             {
-                "Inbox" => getMessagesQuery.Where(message => message.Recipient!.Username == messageParams.Username && !message.RecipientDeleted),
-                "Outbox" => getMessagesQuery.Where(message => message.Sender!.Username == messageParams.Username && !message.SenderDeleted),
-                _ => getMessagesQuery.Where(message => message.Recipient!.Username == messageParams.Username
+                "Inbox" => getMessagesQuery.Where(message => message.Recipient!.UserName == messageParams.Username && !message.RecipientDeleted),
+                "Outbox" => getMessagesQuery.Where(message => message.Sender!.UserName == messageParams.Username && !message.SenderDeleted),
+                _ => getMessagesQuery.Where(message => message.Recipient!.UserName == messageParams.Username
                 && message.DateRead == null && !message.RecipientDeleted)
             };
 
@@ -62,10 +62,10 @@ namespace API.Data
             var messages = await _dataContext.Messages
                 .Include(m => m.Sender).ThenInclude(s => s!.Photos)
                 .Include(m => m.Recipient).ThenInclude(r => r!.Photos)
-                .Where(message => message.Recipient!.Username == currentUsername && !message.RecipientDeleted
-                && message.Sender!.Username == recipientUsername
-                || message.Recipient!.Username == recipientUsername
-                && message.Sender!.Username == currentUsername && !message.SenderDeleted)
+                .Where(message => message.Recipient!.UserName == currentUsername && !message.RecipientDeleted
+                && message.Sender!.UserName == recipientUsername
+                || message.Recipient!.UserName == recipientUsername
+                && message.Sender!.UserName == currentUsername && !message.SenderDeleted)
                 .OrderBy(message => message.MessageSent).ToListAsync();
 
             var unreadMessages = messages.Where(message => message.DateRead == DateTime.MinValue
