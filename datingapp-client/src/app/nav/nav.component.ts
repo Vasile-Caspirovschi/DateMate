@@ -30,7 +30,7 @@ export class NavComponent implements OnInit {
 
   getCurrentUser() {
     this.accountService.currentUser$.subscribe(user => {
-      console.log(user);
+
     }, error => {
       console.log(error);
     });
