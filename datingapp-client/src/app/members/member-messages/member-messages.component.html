@@ -15,11 +15,11 @@
                             <small class="text-muted">
                                 <span class="fa fa-clock-o">{{message.messageSent | timeago}}</span>
                                 <span class="text-danger"
-                                    *ngIf="message.dateRead.toString() === '0001-01-01T00:00:00' && message.senderUsername !== username">
+                                    *ngIf="!message.dateRead && message.senderUsername !== username">
                                     (unread)
                                 </span>
                                 <span class="text-success"
-                                    *ngIf="message.dateRead.toString() !== '0001-01-01T00:00:00' && message.senderUsername !== username">
+                                    *ngIf="message.dateRead && message.senderUsername !== username">
                                     (read {{message.dateRead | timeago}})
                                 </span>
                             </small>

@@ -38,10 +38,10 @@ namespace API.Controllers
             {
                 Sender = sender,
                 Recipient = recipient,
-                SenderUsername = sender.UserName,
-                RecipientUsername = recipient.UserName,
+                SenderUsername = sender.UserName!,
+                RecipientUsername = recipient.UserName!,
                 DateRead = null,
-                Content = createMessageDto.Content
+                Content = createMessageDto.Content!
             };
             _messageRepository.AddMessage(message);
 
