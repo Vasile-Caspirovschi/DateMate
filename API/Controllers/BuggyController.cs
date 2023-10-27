@@ -29,7 +29,7 @@ namespace API.Controllers
         public ActionResult<string> GetServerError()
         {
             var thing = _dataContext.Users.Find(-1);
-            var something = thing.ToString();
+            var something = thing!.ToString();
             return something;
         }
 
