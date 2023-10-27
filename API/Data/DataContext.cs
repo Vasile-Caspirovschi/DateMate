@@ -10,6 +10,8 @@ namespace API.Data
     {
         public DbSet<UserLike> Likes { get; set; } = null!;
         public DbSet<Message> Messages { get; set; } = null!;
+        public DbSet<Group> Groups { get; set; } = null!;
+        public DbSet<Connection> Connections { get; set; } = null!;
         public DataContext(DbContextOptions options) : base(options)
         {
         }
