@@ -40,7 +40,7 @@ namespace API.Controllers
             {
                 Username = loginDTO.Username,
                 Token = await _tokenService.CreateToken(user!),
-                PhotoUrl = user!.Photos.FirstOrDefault(photo => photo.IsMain)?.Url,
+                PhotoUrl = user!.Photos.FirstOrDefault(photo => photo.IsMain)!.Url,
                 Gender = user.Gender,
                 KnownAs = user.KnownAs
             };
@@ -63,7 +63,7 @@ namespace API.Controllers
             {
                 Username = registerDTO.Username,
                 Token = await _tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.IsMain)?.Url,
+                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.IsMain)!.Url,
                 KnownAs = user.KnownAs
             };
         }
