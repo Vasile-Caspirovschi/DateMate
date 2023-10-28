@@ -89,10 +89,10 @@ namespace API.Data
                 .OrderBy(message => message.MessageSent).ToListAsync();
 
             var unreadMessages = messages.Where(message => message.DateRead == null
-            && message.RecipientUsername == currentUsername).ToList();
+                && message.RecipientUsername == currentUsername).ToList();
             if (unreadMessages.Any())
             {
-                unreadMessages.ForEach(message => message.DateRead = DateTime.Now);
+                unreadMessages.ForEach(message => message.DateRead = DateTime.UtcNow);
                 await _dataContext.SaveChangesAsync();
             }
 
