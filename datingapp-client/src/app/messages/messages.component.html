@@ -27,7 +27,7 @@
         </thead>
         <tbody>
             <tr [hidden]="isLoading" *ngFor="let message of messages" [queryParams]="{tab: 3}"
-                routerLink='{{container === "Outbox" ? "/members/" + message.recipientUsername : message.senderUsername }}'>
+                routerLink='{{container === "Outbox" ? "/members/" + message.recipientUsername : "/members/" + message.senderUsername }}'>
                 <td>{{message.content}}</td>
                 <td>
                     <div *ngIf="container === 'Outbox'">
@@ -44,7 +44,8 @@
                 </td>
                 <td>{{message.messageSent | timeago}}</td>
                 <td>
-                    <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)"><i class="fa fa-remove"></i> Delete</button>
+                    <button class="btn btn-danger" (click)="$event.stopPropagation()"
+                        (click)="deleteMessage(message.id)"><i class="fa fa-remove"></i> Delete</button>
                 </td>
             </tr>
         </tbody>
