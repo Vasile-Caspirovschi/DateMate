@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
 	{
 		policy.AllowCredentials();
 		policy.AllowAnyHeader();
-		policy.WithOrigins("http://localhost:4200");
+		policy.WithOrigins("http://localhost:5129");
 	});
 });
 
@@ -56,5 +56,6 @@ app.UseStaticFiles();
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<MessageHub>("hubs/message");
+app.MapFallbackToController("Index", "Fallback");
 
 app.Run();
