@@ -35,6 +35,6 @@ namespace API.Data
         public void RemovePhoto(Photo photo)
         {
             _dataContext.Photos.Remove(photo);
-        }
+        }   
     }
 }

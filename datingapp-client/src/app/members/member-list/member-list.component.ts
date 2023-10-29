@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { Member } from 'src/app/_models/member';
 import { Pagination } from 'src/app/_models/pagination';
-import { User } from 'src/app/_models/user';
 import { UserParams } from 'src/app/_models/userParams';
-import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
 
 @Component({
@@ -18,16 +16,19 @@ export class MemberListComponent implements OnInit {
   userParams!: UserParams;
   genderList = [{ value: 'male', display: "Males" }, { value: 'female', display: 'Females' }];
 
-  constructor(private memberService: MembersService) {
+  constructor(private memberService: MembersService, private route: ActivatedRoute) {
     this.userParams = memberService.getUserParams();
   }
 
   ngOnInit(): void {
-    this.loadMembers();
+    this.route.data.subscribe((data) => {
+      this.members = data['paginatedResult'].result;
+      this.pagination = data['paginatedResult'].pagination;
+    });
   }
 
   loadMembers() {
-    this.memberService.getMembers(this.userParams).subscribe(response => {
+    this.memberService.getMembers(this.userParams).subscribe((response: {result: Member[], pagination: Pagination}) => {
       this.members = response.result;
       this.pagination = response.pagination;
     });
@@ -43,5 +44,4 @@ export class MemberListComponent implements OnInit {
     this.memberService.setUserParams(this.userParams);
     this.loadMembers();
   }
-
 }

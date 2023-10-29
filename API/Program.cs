@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddCors();
 builder.Services.AddAplicationServices(builder.Configuration);
 builder.Services.AddControllers();
@@ -50,6 +49,9 @@ app.UseCors(clientOrigin);
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
