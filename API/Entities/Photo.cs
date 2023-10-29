@@ -11,5 +11,6 @@ namespace API.Entities
         public string PublicId { get; set; } = string.Empty;
         public AppUser User { get; set; } = null!;
         public int AppUserId { get; set; }
+        public bool IsApproved { get; set; }
     }
 }

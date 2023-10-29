@@ -1,12 +1,10 @@
-﻿using API.Data;
-using API.DTOs;
+﻿using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
 
 namespace API.Controllers
 {
@@ -33,17 +31,18 @@ namespace API.Controllers
 
             if (user == null) return Unauthorized("Invalid username");
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user!, loginDTO.Password!, false);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password!, false);
             if (!result.Succeeded) return Unauthorized("Invalid password");
 
-            return new UserDTO
+            var users = new UserDTO
             {
                 Username = loginDTO.Username,
-                Token = await _tokenService.CreateToken(user!),
-                PhotoUrl = user!.Photos.FirstOrDefault(photo => photo.IsMain)!.Url,
+                Token = await _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.IsMain)?.Url,
                 Gender = user.Gender,
                 KnownAs = user.KnownAs
             };
+            return users;
         }
 
         [HttpPost("register")]
@@ -63,7 +62,7 @@ namespace API.Controllers
             {
                 Username = registerDTO.Username,
                 Token = await _tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.IsMain)!.Url,
+                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.IsMain)?.Url,
                 KnownAs = user.KnownAs
             };
         }

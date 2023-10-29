@@ -15,6 +15,7 @@ namespace API.Data
         public DbSet<Message> Messages { get; set; } = null!;
         public DbSet<Group> Groups { get; set; } = null!;
         public DbSet<Connection> Connections { get; set; } = null!;
+        public DbSet<Photo> Photos { get; set; } = null!;
         public DataContext(DbContextOptions options) : base(options)
         {
         }
@@ -55,6 +56,9 @@ namespace API.Data
                 .HasOne(user => user.Sender)
                 .WithMany(m => m.MessagesSent)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Photo>().HasQueryFilter(photo => photo.IsApproved);
+
             modelBuilder.ApplyUtcDateTimeConverter();
         }
     }
