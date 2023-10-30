@@ -19,7 +19,7 @@ namespace API.Helpers
             var uow = resultContext.HttpContext.RequestServices.GetService<IUnitOfWork>() 
                 ?? throw new Exception("The requested services was null");
             var user = await uow.UserRepository.GetUserByIdAsync(userId);
-            user.LastActive = DateTime.Now;
+            user.LastActive = DateTime.UtcNow;
             await uow.Complete();
         }
     }

@@ -25,6 +25,7 @@ namespace API.Helpers
             CreateMap<Photo, PhotoForApprovalDto>()
                 .ForMember(dest => dest.Username, opt => opt
                 .MapFrom(src => src.User.UserName));
+            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
         }
     }
 }

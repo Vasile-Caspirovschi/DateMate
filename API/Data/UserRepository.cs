@@ -35,8 +35,8 @@ namespace API.Data
             var getUsersQuery = _dataContext.Users.AsQueryable();
             getUsersQuery = getUsersQuery.Where(user => user.UserName != userParams.CurrentUsername);
             getUsersQuery = getUsersQuery.Where(user => user.Gender == userParams.Gender);
-            var minDob = DateTime.Today.AddYears(-userParams.MaxAge);
-            var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
+            var minDob = DateTime.Today.AddYears(-userParams.MaxAge).ToUniversalTime();
+            var maxDob = DateTime.Today.AddYears(-userParams.MinAge).ToUniversalTime();
             getUsersQuery = getUsersQuery.Where(user => user.DateOfBirth >= minDob && user.DateOfBirth <= maxDob);
 
             getUsersQuery = userParams.Orderby switch

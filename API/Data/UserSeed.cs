@@ -17,15 +17,22 @@ namespace API.Data
 
             var roles = new List<AppRole>()
             {
-                new AppRole{Name = "Member"},
-                new AppRole{Name = "Admin"},
-                new AppRole{Name ="Moderator"}
+                new() {Name = "Member"},
+                new() {Name = "Admin"},
+                new() {Name ="Moderator"}
             };
-            roles.ForEach(async role => await roleManager.CreateAsync(role));
 
-            foreach (var user in users!)
+            foreach (var role in roles)
+            {
+                await roleManager.CreateAsync(role);
+            }
+
+            foreach (var user in users)
             {
                 user.UserName = user.UserName!.ToLower();
+                user.DateOfBirth = user.DateOfBirth.ToUniversalTime(); 
+                user.Created = user.Created.ToUniversalTime();
+                user.LastActive = user.LastActive.ToUniversalTime();
                 await userManager.CreateAsync(user, "Pa$$w0rd");
                 await userManager.AddToRoleAsync(user, "Member");
             }
