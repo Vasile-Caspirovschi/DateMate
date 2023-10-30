@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
 	{
 		policy.AllowCredentials();
 		policy.AllowAnyHeader();
-		policy.WithOrigins("http://localhost:5129");
+		policy.WithOrigins("http://localhost:4200");
 	});
 });
 
